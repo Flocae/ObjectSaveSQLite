@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+Florent Caetta 2016-12
+-->
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					   xmlns:s="library://ns.adobe.com/flex/spark" 
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="windowedapplication1_creationCompleteHandler(event)"
+					    xmlns:views="views.*"
+					   title="Object Save with SQLite" xmlns:components="flatspark.components.*"
+					   >
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;			
+			import db.ObjectSQLsave;
+			import flatspark.utils.AwesomeUtils;
+
+			// -- VARIABLES 
+			// Database
+			private var _myDB:ObjectSQLsave;
+			private var _databaseName:String="myDatabaseName";
+			
+			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+				this.removeEventListener(FlexEvent.CREATION_COMPLETE,windowedapplication1_creationCompleteHandler);
+				// ObjectSQLsave instance
+				_myDB=new ObjectSQLsave(_databaseName);
+				// nEntries text
+				nEntriesLabel.text = "Number of entries : " + _myDB.nEntries;
+				// db name
+				dbNameLabel.text = "Database name : "+ _databaseName;
+				// status bar
+				var xml : XML = NativeApplication.nativeApplication.applicationDescriptor;
+				var ns : Namespace = xml.namespace();
+				var version : String = xml.ns::versionNumber;
+				this.status="version : "+version; 
+			}
+			
+			// Buttons events
+			protected function addNewButton_clickHandler(event:MouseEvent):void
+			{
+				_myDB.dataObject = new Object();
+				_myDB.dataObject.string=stringTI.text;
+				_myDB.dataObject.int=int(intTI.text);
+				_myDB.dataObject.number=Number(numberTI.text)
+				_myDB.addNew(stringTI.text);
+				_myDB.nEntries=_myDB.nEntries+1;
+				nEntriesLabel.text = "Number of entries : " + _myDB.nEntries;
+			}
+			
+			protected function getInfoButton_clickHandler(event:MouseEvent):void
+			{	
+				if (idTI.text=="")
+				{
+					Alert.show("Require ID","Erreur",Alert.OK);
+				}
+				else
+				{
+					var infoID:int=int(idTI.text);
+					_myDB.getInfoById(infoID);
+					insertTextAreaValues();
+				}
+			}
+			
+			protected function replaceButton_clickHandler(event:MouseEvent):void
+			{
+				if (idTI.text=="")
+				{
+					Alert.show("Require ID","Error",Alert.OK);
+				}
+				else
+				{
+					try
+					{
+						_myDB.id=int(idTI.text);
+						_myDB.dataObject.string=(stringTI.text=="")?_myDB.dataObject.string:stringTI.text;// if textInput empty, does not replace
+						_myDB.dataObject.int=(intTI.text=="")?_myDB.dataObject.int:int(intTI.text);
+						_myDB.dataObject.number=(numberTI.text=="")?_myDB.dataObject.number:Number(numberTI.text);
+						_myDB.flush();
+						var infoID:int=int(idTI.text);
+						_myDB.getInfoById(infoID);
+						insertTextAreaValues();
+					} 
+					catch(error:Error) 
+					{
+						Alert.show(error.message,error.name,Alert.OK)
+					}				
+				}		
+			}
+			
+			private function insertTextAreaValues():void
+			{
+				infoTextArea.text="VARIABLES [ID: "+idTI.text+"] : \n\n";
+				if ( _myDB.arrayCollectionData)
+				{
+					for (var i:int = 0; i < _myDB.arrayCollectionData.length; i++) 
+					{
+						infoTextArea.text=infoTextArea.text+(i+1)+" - "+_myDB.arrayCollectionData[i][0] + " : "+ _myDB.arrayCollectionData[i][1]+"\n";
+					}
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace views "views.*";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@font-face {
+			src:url("assets/rubik/Rubik-Regular.ttf");
+			fontFamily: Rubik-Regular;
+			embedAsCFF: true;
+		}
+		.titleTextForm{
+			fontFamily : Rubik-Regular;
+			fontSize:20;
+			verticalAlign: middle;
+		}
+		.normalTextForm{
+			fontFamily : Rubik-Regular;
+			fontSize:16;
+			verticalAlign: middle;
+		}
+		
+		s|TextInput{
+			skinClass:ClassReference("flatspark.skins.TextInputSkin")
+		}
+		s|Button{
+			skinClass:ClassReference("flatspark.skins.ButtonSkin")
+		}
+		mx|Alert
+		{
+			skinClass:ClassReference("flatspark.skins.AlertSkin")
+		}
+	</fx:Style>
+	
+	<s:VGroup  width="100%" height="100%" paddingTop="10" paddingLeft="10" paddingRight="10" paddingBottom="10" horizontalAlign="center">
+		<s:Label text="Examples variables :" styleName="titleTextForm" width="100%" textAlign="left"/>
+		<s:HGroup width="100%" height="100%">
+			<s:VGroup width="100%" height="100%">	
+				<s:HGroup verticalAlign="middle" width="100%">
+					<s:Label text="String : " styleName="normalTextForm"/>
+					<s:Spacer width="100%"/>
+					<s:TextInput id="stringTI" />
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle"  width="100%">
+					<s:Label text="Int : " styleName="normalTextForm"/>
+					<s:Spacer width="100%"/>
+					<s:TextInput id="intTI" />
+				</s:HGroup>
+				<s:HGroup verticalAlign="middle"  width="100%">
+					<s:Label text="Number : " styleName="normalTextForm"/>
+					<s:Spacer width="100%"/>
+					<s:TextInput id="numberTI" />
+				</s:HGroup>
+				<s:Spacer height="10"/>
+				<mx:HRule width="100%"/>
+				<s:Label id="nEntriesLabel" styleName="normalTextForm"/>
+				<s:Label id="dbNameLabel" styleName="normalTextForm"/>
+			</s:VGroup>
+			<s:VGroup width="100%" height="100%">
+				<s:TextArea id="infoTextArea" width="100%" height="100%" />
+			</s:VGroup>
+		</s:HGroup>
+		<mx:HRule width="100%"/>
+		<s:HGroup verticalAlign="middle"  horizontalAlign="left">
+			<s:Button id="addNewButton" click="addNewButton_clickHandler(event)" label="Add new"/>
+			<mx:VRule height="{addNewButton.height}"/>
+			<s:HGroup verticalAlign="middle"  width="100%">
+				<s:Label text="ID : " styleName="normalTextForm" />
+				<components:TextInputIcon id="idTI" width="60" iconFont="{flatspark.utils.AwesomeUtils.fa_user}" restrict="0-9"/>
+			</s:HGroup>
+			<s:Button id="getInfoButton" click="getInfoButton_clickHandler(event)" label="Get Info" toolTip="require ID"/>
+			<s:Button id="replaceButton" click="replaceButton_clickHandler(event)" label="Replace"  toolTip="require ID"/>
+		</s:HGroup>
+	</s:VGroup>	
+</s:WindowedApplication>
