@@ -8,11 +8,11 @@ This is a flexible and simply way I use to store data on the same db table. I me
 - [TextID] = whatever you want; e.g. person’s name,
 - [DataObject] = an Object, that contain all the variables you want,
 
-You can directly install the application to test it (ObjectSave.air; adobe air runtime required : https://get.adobe.com/fr/air/)
+App installer is provided (ObjectSave.air; adobe air runtime is required : https://get.adobe.com/fr/air/)
 
-////////////////////////////////////////////////////////////////////////////
+//
 
-USAGE :
+USAGE - Here we store 3 variables, string/int/number:
  
 - First create an instance:
 
@@ -22,32 +22,32 @@ USAGE :
 
  _myDB.dataObject= new Object(); 
 
-_myDB.dataObject.stringVar = "Hello";
+ _myDB.dataObject.stringVar = "Hello";
 
-_myDB.dataObject.intVar=2;
+ _myDB.dataObject.intVar=2;
 
-_myDB.dataObject.numberVar=34.890;
+ _myDB.dataObject.numberVar=34.890;
 
-_myDB.addNew(stringIdentifier); //stringIdentifier, e.g. a person’s name
+ _myDB.addNew(stringIdentifier); //stringIdentifier, e.g. a person’s name
   
 - Replace data: 
 
-_myDB.id=id; // Need an ID to select data
+ _myDB.id=id; // Need an ID to select data
 
-_myDB.dataObject.stringVar = "Hello again";
+ _myDB.dataObject.stringVar = "Hello again";
 
-_myDB.dataObject.intVar=2;
+ _myDB.dataObject.intVar=2;
 
-_myDB.dataObject.numberVar=34.890;
+ _myDB.dataObject.numberVar=34.890;
 
-_myDB.flush();// like sharedObject;
+ _myDB.flush();// like sharedObject;
  
 - Get DATA
 
-_myDB.getInfoById(id); // This method populate an ArrayCollection with data name :_myDB.arrayCollectionData[i][0], and values: arrayCollectionData[i][1];
+ _myDB.getInfoById(id); // This method populate an ArrayCollection with data name :_myDB.arrayCollectionData[i][0], and values: arrayCollectionData[i][1];
 
-////////////////////////////////////////////////////////////////////////////
+//
 
-The ObjectSQLsave class is an edition of the SQLsave class originally made by Lucas Paakh (www.particlasm.com)
+The ObjectSQLsave class is an edition of the SQLsave class originally made by Lucas Paakh
 
 Florent Caetta 20016-12
