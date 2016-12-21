@@ -14,10 +14,10 @@ You can directly install the application to test it (ObjectSave.air; adobe air r
 
 USAGE :
  
-#First create an instance: 
+. First create an instance: 
 var _myDB:ObjectSQLsave=new _myDB:ObjectSQLsave("DATABASE_NAME");
 
-#Add new variables:
+Add new variables:
 _myDB.dataObject= new Object(); 
 _myDB.dataObject.stringVar = "Hello";
 _myDB.dataObject.intVar=2;
