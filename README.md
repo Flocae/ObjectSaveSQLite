@@ -16,11 +16,11 @@ USAGE :
  
 - First create an instance:
 
-var _myDB:ObjectSQLsave=new _myDB:ObjectSQLsave("DATABASE_NAME");
+ var _myDB:ObjectSQLsave=new _myDB:ObjectSQLsave("DATABASE_NAME");
 
 - Add new variables:
 
-_myDB.dataObject= new Object(); 
+ _myDB.dataObject= new Object(); 
 
 _myDB.dataObject.stringVar = "Hello";
 
@@ -31,6 +31,7 @@ _myDB.dataObject.numberVar=34.890;
 _myDB.addNew(stringIdentifier); //stringIdentifier, e.g. a person’s name
   
 - Replace data: 
+
 _myDB.id=id; // Need an ID to select data
 
 _myDB.dataObject.stringVar = "Hello again";
@@ -43,9 +44,7 @@ _myDB.flush();// like sharedObject;
  
 - Get DATA
 
-_myDB.getInfoById(id);
-
-This method populate an ArrayCollection with data name :_myDB.arrayCollectionData[i][0], and values: arrayCollectionData[i][1];
+_myDB.getInfoById(id); // This method populate an ArrayCollection with data name :_myDB.arrayCollectionData[i][0], and values: arrayCollectionData[i][1];
 
 ////////////////////////////////////////////////////////////////////////////
 
