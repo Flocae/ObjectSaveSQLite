@@ -1,4 +1,4 @@
-# ObjectSaveSQLite
+# Object Save with SQLite & AIR app
 
 Sample Adobe Air application (made with Apache Flex framework - http://flex.apache.org) which save objects into an SQLite database.
 
