@@ -2,11 +2,11 @@
 
 Sample Adobe Air application (made with Apache Flex framework - http://flex.apache.org) which save objects into an SQLite database.
 
-This is a flexible and simply way I use to store data on the same db table. I mean, let you imagine an application which initially store two variables, e.g. age & gender. These data will be stored in an Objet (DataObject.age,DataObject.gender). Next time, you can easily add an extra variable simply by adding to your object this new variable (DataObject.age,DataObject.gender,DataObject.myExtraVariable). Currently, structure of the table is as follows: [ID][TextID][DataObject], 
+<p>This is a flexible and simply way I use to store data on the same db table. I mean, let you imagine an application which initially store two variables, e.g. age & gender. These data will be stored in an Objet (DataObject.age,DataObject.gender). Next time, you can easily add an extra variable simply by adding to your object this new variable (DataObject.age,DataObject.gender,DataObject.myExtraVariable). Currently, structure of the table is as follows: [ID][TextID][DataObject]</p> 
 
-[ID] = unique ID which is auto-incremented,
-[TextID] = whatever you want; e.g. person’s name,
-[DataObject] = an Object, that contain all the variables you want,
+- [ID] = unique ID which is auto-incremented,
+- [TextID] = whatever you want; e.g. person’s name,
+- [DataObject] = an Object, that contain all the variables you want,
 
 You can directly install the application to test it (ObjectSave.air; adobe air runtime required : https://get.adobe.com/fr/air/)
 
@@ -14,7 +14,7 @@ You can directly install the application to test it (ObjectSave.air; adobe air r
 
 USAGE :
  
-. First create an instance: 
+First create an instance: 
 var _myDB:ObjectSQLsave=new _myDB:ObjectSQLsave("DATABASE_NAME");
 
 Add new variables:
